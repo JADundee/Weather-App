@@ -112,6 +112,12 @@ const setUnitPref = () => {
     addSpinner(unitIcon);
     currentLoc.toggleUnit();
     updateDataAndDisplay(currentLoc);
+};
+
+const refreshWeather = () => {
+    const refreshIcon = document.querySelector(".fa-sync-alt");
+    addSpinner(refreshIcon);
+    updateDataAndDisplay(currentLoc);
 }
 
 const updateDataAndDisplay = async (locationObj) => {
