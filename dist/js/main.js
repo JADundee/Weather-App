@@ -1,4 +1,4 @@
-import { setLocationObject } from "./dataFunctions.js";
+import { setLocationObject, getHomeLocation } from "./dataFunctions.js";
 import { addSpinner, displayError } from "./domFunctions.js" 
 import CurrentLocation from "./CurrentLocation.js";
 const currentLoc = new CurrentLocation();
@@ -8,9 +8,13 @@ const initApp = () => {
     // Add listeners
     const geoButton = document.getElementById("getLocation");
     geoButton.addEventListener("click", getGeoWeather);
+
+    const homeButton = document.getElementById("home");
+    homeButton.addEventListener("click", loadWeather);
     // Set up
 
     // Load weather
+    loadWeather();
 };
 
 document.addEventListener("DOMContentLoaded", initApp)
@@ -41,7 +45,39 @@ const geoSuccess = (position) => {
     updateDataAndDisplay(currentLoc);
 };
 
+const loadWeather = (event) => {
+    const savedLocation = getHomeLocation();
+    if (!savedLocation && !event) return getGeoWeather();
+    if (!savedLocation && event.type === "click") {
+        displayError(
+            "No Home Location Saved.",
+            "Sorry. Please save you home location first."
+        );
+    } else if (savedLocation && !event) {
+        displayHomeLocationWeather(savedLocation);
+    } else {
+        const homeIcon = document.querySelector(".fa-home");
+        addSpinner(homeIcon);
+        displayHomeLocationWeather(savedLocation);
+    }
+};
+
+const displayHomeLocationWeather = (home) => {
+    if (typeof home === "string") {
+        const locationJson = JSON.parse(home);
+        const myCoordsObj = {
+            lat: locationJson.lat,
+            lon: locationJson.lon,
+            name: locationJson.name,
+            unit: locationJson.unit
+        };
+        setLocationObject(currentLoc, myCoordsObj);
+        updateDataAndDisplay(currentLoc);
+    }
+};
+
 const updateDataAndDisplay = async (locationObj) => {
+    console.log(locationObj);
    /*  const weatherJson = await getWeatherFromCoords(location);
     if (weatherJson) updateDisplay(weatherJson, locationObj); */
 }
