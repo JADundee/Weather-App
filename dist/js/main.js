@@ -21,6 +21,12 @@ const initApp = () => {
 
     const saveButton = document.getElementById("saveLocation");
     saveButton.addEventListener("click", saveLocation);
+
+    const unitButton = document.getElementById("unit");
+    unitButton.addEventListener("click", setUnitPref);
+
+    const refreshButton = document.getElementById("refresh");
+    refreshButton.addEventListener("click", refreshWeather);
     // Set up
 
     // Load weather
@@ -100,6 +106,13 @@ const saveLocation = () => {
         updateScreenReaderConfirmation(`Saved ${currentLoc.getName()} as home location`);
     }
 };
+
+const setUnitPref = () => {
+    const unitIcon = document.querySelector(".fa-chart-bar");
+    addSpinner(unitIcon);
+    currentLoc.toggleUnit();
+    updateDataAndDisplay(currentLoc);
+}
 
 const updateDataAndDisplay = async (locationObj) => {
     console.log(locationObj);
