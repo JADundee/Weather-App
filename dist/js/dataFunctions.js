@@ -19,7 +19,12 @@ export const getCoordsFromApi = async (entryText, units) => {
     const url = `https://api.openweathermap.org/data/2.5/weather?${flag}=${entryText}&units=${units}&appid=${WEATHER_API_KEY}`;
     const encodedUrl = encodeURI(url);
     try {
-
+        const dataStream = await fetch(encodedUrl);
+        const jsonData = await dataStream.json();
+        console.log(jsonData);
+        return jsonData;
+    } catch (err) {
+        console.error(err.stack);
     }
 };
 
