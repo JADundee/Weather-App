@@ -1,3 +1,4 @@
+const WEATHER_API_KEY = `bc22c20c62e2da1c08684021b22a8b82`;
 export const setLocationObject = (locationObj, coordsObj) => {
     const { lat, lon, name, unit } = coordsObj;
     locationObj.setLat(lat);
@@ -12,8 +13,18 @@ export const getHomeLocation = () => {
     return localStorage.getItem("defaultWeatherLocation");
 };
 
+export const getCoordsFromApi = async (entryText, units) => {
+    const regex = /^\d+$/g;
+    const flag = regex.test(entryText) ? "zip" : "q";
+    const url = `https://api.openweathermap.org/data/2.5/weather?${flag}=${entryText}&units=${units}&appid=${WEATHER_API_KEY}`;
+    const encodedUrl = encodeURI(url);
+    try {
+
+    }
+};
+
 export const cleanText = (text) => {
     const regex = / {2,}/g;
     const entryText = text.replaceAll(regex, " ").trim();
     return entryText;
-}
+};
