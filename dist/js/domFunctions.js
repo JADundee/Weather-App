@@ -53,6 +53,7 @@ export const updateDisplay = (weatherJson, locationObj) => {
     updateScreenReaderConfirmation(screenReaderWeather);
     updateWeatherLocationHeader(locationObj.getName());
     // current conditions
+    const ccArray = createCurrentConditionsDivs(weatherJson, locationObj.getUnit());
     // six day forecast
     setFocusOnSearch();
     fadeDisplay();
@@ -122,4 +123,44 @@ const buildScreenReaderWeather = (weatherJson, locationObj) => {
 
 const setFocusOnSearch = () => {
     document.getElementById("searchBar__text").focus();
+};
+
+const createCurrentConditionsDivs = (weatherObj, unit) => {
+    const tempUnit = unit === "imperial" ? "F" : "C";
+    const windUnit = unit === "imperial" ? "mph" : "kph";
+    const icon = createMainImgDiv(weatherObj.current.weather[0].icon, weatherObj.current.weather[0].description);
+    const temp = createElem("div", "temp", `${Math.round(Number(weatherObj.current.temp))}°.`);
+    const properDesc = toProperCase(weatherObj.current.weather[0].description);
+    const desc = createElem("div", "desc", properDesc);
+    const feels = createElem("div", "feels", `Feels like ${Math.round(Number(weatherObj.current.feels_like))}°.`);
+    const maxTemp = createElem("div", "maxtemp" , `High of ${Math.round(Number(weatherObj.daily[0].temp.max))}°.`);
+    const minTemp = createElem("div", "mintemp", `Low of ${Math.round(Number(weatherObj.daily[0].temp.min))}°.`);
+    const humidity = createElem("div", "humidity", `Humidity of ${weatherObj.current.humidity}%.`);
+    const wind = createElem("div", "wind", `Wind speeds of ${Math.round(Number(weatherObj.current.wind_speed))} ${windUnit}.`);
+    return [icon, temp, desc, feels, maxTemp, minTemp, humidity, wind];
+};
+
+const createMainImgDiv = (icon, altText) => {
+    const iconDiv = createElem("div", "icon");
+    iconDiv.id = "icon";
+    const faIcon = translateIconToFontAwesome(icon);
+    faIcon.ariaHidden = true;
+    faIcon.title = altText;
+    iconDiv.appendChild(faIcon);
+    return iconDiv;
+};
+
+const createElem = (elemType, divClassName, divText, unit) => {
+    const div = document.createElement(elemType);
+    div.ClassName = divClassName;
+    if (divText) {
+        div.textContent = divText;
+    }
+    if (divClassName === "temp") {
+        const unitDiv = document.createElement("div");
+        unitDiv.classList.add("unit");
+        unitDiv.textContent = unit;
+        div.appendChild(unitDiv);
+    }
+    return div; 
 };
