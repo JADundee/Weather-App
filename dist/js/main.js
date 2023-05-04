@@ -138,7 +138,7 @@ const submitNewLocation = async (event) => {
     const locationIcon = document.querySelector(".fa-search");
     addSpinner(locationIcon);
     const coordsData = await getCoordsFromApi(entryText, currentLoc.getUnit());
-    if (coordsData) {
+    if (coordsData) { // 3:10:00 find changes to this function to fix 404 error on searchbar api key
         if (coordsData.cod === 200) {
             const myCoordsObj = {
                 lat: coordsData.coord.lat,
