@@ -48,7 +48,13 @@ export const updateDisplay = (weatherJson, locationObj) => {
     fadeDisplay();
     clearDisplay();
     const weatherClass = getWeatherClass(weatherJson.current.weather[0].icon);
-
+    setBGImage(weatherClass);
+    const screenReaderWeather = buildScreenReaderWeather(weatherJson, locationObj);
+    updateScreenReaderConfirmation(screenReaderWeather);
+    updateWeatherLocationHeader(locationObj.getName());
+    // current conditions
+    // six day forecast
+    setFocusOnSearch();
     fadeDisplay();
 };
 
@@ -88,5 +94,32 @@ const getWeatherClass = (icon) => {
         "11": "thunderstorm",
         "13": "snow",
         "50": "fog"
+    };
+    let weatherClass;
+    if (weatherLookup[firstTwoChars]) {
+        weatherClass = weatherLookup[firstTwoChars];
+    } /* else if (lastChar === "d") {
+        weatherClass = "clouds";
+    } */ else {
+        weatherClass = "night";
     }
-}
+    return weatherClass;
+};
+
+const setBGImage = (weatherClass) => {
+    document.documentElement.classList.add(weatherClass);
+    document.documentElement.classList.forEach(img => {
+        if (img !== weatherClass) document.documentElement.classList.remove(img);
+    });
+};
+
+const buildScreenReaderWeather = (weatherJson, locationObj) => {
+    const location = locationObj.getName();
+    const unit = locationObj.getUnit();
+    const tempUnit = unit === "imperial" ? "F" : "C";
+    return `${weatherJson.current.weather[0].description} and ${Math.round(Number(weatherJson.current.temp))}°${tempUnit} in ${location}.`;
+};
+
+const setFocusOnSearch = () => {
+    document.getElementById("searchBar__text").focus();
+};
