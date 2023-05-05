@@ -1,5 +1,3 @@
-import { getWeatherFromCoords } from "./dataFunctions";
-
 export const setPlaceholderText = () => {
     const input = document.getElementById("searchBar__text");
     window.innerWidth < 400 ? (input.placeholder = "City, Province, or Country") : (input.placeholder = "City, Province, Country, or Zip/Postal Code")
@@ -87,10 +85,10 @@ const getWeatherClass = (icon) => {
     const firstTwoChars = icon.slice(0,2);
     const lastChar = icon.slice(2);
     const weatherLookup = {
-        "01": "clear sky",
-        "02": "partly cloudy",
+        "01": "clear_sky",
+        "02": "partly_cloudy",
         "03": "clouds",
-        "04": "scattered clouds",
+        "04": "scattered_clouds",
         "09": "rain",
         "11": "thunderstorm",
         "13": "snow",
@@ -144,9 +142,9 @@ const createMainImgDiv = (icon, altText) => {
     const iconDiv = createElem("div", "icon");
     iconDiv.id = "icon";
     const faIcon = translateIconToFontAwesome(icon);
-    faIcon.ariaHidden = true;
-    faIcon.title = altText;
-    iconDiv.appendChild(faIcon);
+    /* faIcon.ariaHidden = true; */
+   /*  faIcon.title = altText; */
+    /* iconDiv.appendChild(faIcon); */
     return iconDiv;
 };
 
@@ -164,3 +162,35 @@ const createElem = (elemType, divClassName, divText, unit) => {
     }
     return div; 
 };
+
+const translateIconToFontAwesome = (icon) => {
+    const i = document.createElement("i");
+    const firstTwoChars = icon.slice(0,2);
+    const lastChar = icon.slice(2);
+    switch(firstTwoChars) {
+        case "01":
+            if (lastChar === "d") {
+                i.classList.add("far", "fa-sun");
+            } else {
+                i.classList.add("far", "fa-moon");
+            }
+            break;
+        case "02":
+             if (lastChar === "d") {
+                i.classList.add("fas", "fa-cloud-sun");
+            } else {
+                i.classList.add("fas", "fa-cloud-moon");
+            }
+            break;
+        case "03":
+                i.classList.add("fas", "fa-cloud");
+            break;
+        case "04":
+            i.classList.add("fas", "fa-cloud-meatball");
+            break;
+        case "09":
+            i.classList.add("fas", "fa-cloud-rain");
+            break;
+        
+    }
+}

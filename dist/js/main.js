@@ -10,7 +10,8 @@ import {
     addSpinner, 
     displayError, 
     displayApiError,
-    updateScreenReaderConfirmation
+    updateScreenReaderConfirmation,
+    updateDisplay
  } from "./domFunctions.js" 
 import CurrentLocation from "./CurrentLocation.js";
 const currentLoc = new CurrentLocation();
@@ -138,7 +139,7 @@ const submitNewLocation = async (event) => {
     const locationIcon = document.querySelector(".fa-search");
     addSpinner(locationIcon);
     const coordsData = await getCoordsFromApi(entryText, currentLoc.getUnit());
-    if (coordsData) { // 3:10:00 find changes to this function to fix 404 error on searchbar api key
+    if (coordsData) { 
         if (coordsData.cod === 200) {
             const myCoordsObj = {
                 lat: coordsData.coord.lat,
@@ -157,6 +158,5 @@ const submitNewLocation = async (event) => {
 
 const updateDataAndDisplay = async (locationObj) => {
     const weatherJson = await getWeatherFromCoords(locationObj);
-    console.log(weatherJson);
     if (weatherJson) updateDisplay(weatherJson, locationObj);
 };
