@@ -27,7 +27,7 @@ export const displayApiError = (statusCode) => {
 
 const toProperCase = (text) => {
     const words = text.split(" ");
-    const properWords = words.map(word => {
+    const properWords = words.map((word) => {
         return word.charAt(0).toUpperCase() + word.slice(1);
     });
     return properWords.join(" ");
@@ -83,7 +83,7 @@ const deleteContents = (parentElement) => {
 };
 
 const getWeatherClass = (icon) => {
-    const firstTwoChars = icon.slice(0,2);
+    const firstTwoChars = icon.slice(0, 2);
     const lastChar = icon.slice(2);
     const weatherLookup = {
         "01": "clear_sky",
@@ -109,7 +109,7 @@ const getWeatherClass = (icon) => {
 
 const setBGImage = (weatherClass) => {
     document.documentElement.classList.add(weatherClass);
-    document.documentElement.classList.forEach(img => {
+    document.documentElement.classList.forEach((img) => {
         if (img !== weatherClass) document.documentElement.classList.remove(img);
     });
 };
@@ -117,7 +117,7 @@ const setBGImage = (weatherClass) => {
 const buildScreenReaderWeather = (weatherJson, locationObj) => {
     const location = locationObj.getName();
     const unit = locationObj.getUnit();
-    const tempUnit = unit === "imperial" ? "F" : "C";
+    const tempUnit = unit === "imperial" ? "Fahrenheit" : "Celsius";
     return `${weatherJson.current.weather[0].description} and ${Math.round(Number(weatherJson.current.temp))}°${tempUnit} in ${location}.`;
 };
 
@@ -144,15 +144,15 @@ const createMainImgDiv = (icon, altText) => {
     const iconDiv = createElem("div", "icon");
     iconDiv.id = "icon";
     const faIcon = translateIconToFontAwesome(icon);
-    /* faIcon.ariaHidden = true; */
-   /*  faIcon.title = altText; */
-    /* iconDiv.appendChild(faIcon); */
+    faIcon.ariaHidden = true;
+    faIcon.title = altText;
+    iconDiv.appendChild(faIcon);
     return iconDiv;
 };
 
 const createElem = (elemType, divClassName, divText, unit) => {
     const div = document.createElement(elemType);
-    div.ClassName = divClassName;
+    div.className = divClassName;
     if (divText) {
         div.textContent = divText;
     }
@@ -167,9 +167,9 @@ const createElem = (elemType, divClassName, divText, unit) => {
 
 const translateIconToFontAwesome = (icon) => {
     const i = document.createElement("i");
-    const firstTwoChars = icon.slice(0,2);
+    const firstTwoChars = icon.slice(0, 2);
     const lastChar = icon.slice(2);
-    switch(firstTwoChars) {
+    switch (firstTwoChars) {
         case "01":
             if (lastChar === "d") {
                 i.classList.add("far", "fa-sun");
@@ -217,7 +217,7 @@ const translateIconToFontAwesome = (icon) => {
 
 const displayCurrentConditions = (currentConditionsArray) => {
     const ccContainer = document.getElementById("currentForecast__conditions");
-    currentConditionsArray.forEach(cc => {
+    currentConditionsArray.forEach((cc) => {
         ccContainer.appendChild(cc);
     });
 };
