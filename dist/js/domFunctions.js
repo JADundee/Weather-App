@@ -90,6 +90,7 @@ const getWeatherClass = (icon) => {
         "03": "clouds",
         "04": "scattered_clouds",
         "09": "rain",
+        "10": "rain",
         "11": "thunderstorm",
         "13": "snow",
         "50": "fog"
@@ -97,9 +98,9 @@ const getWeatherClass = (icon) => {
     let weatherClass;
     if (weatherLookup[firstTwoChars]) {
         weatherClass = weatherLookup[firstTwoChars];
-    } /* else if (lastChar === "d") {
+    } else if (lastChar === "d") {
         weatherClass = "clouds";
-    } */ else {
+    } else {
         weatherClass = "night";
     }
     return weatherClass;
@@ -191,6 +192,24 @@ const translateIconToFontAwesome = (icon) => {
         case "09":
             i.classList.add("fas", "fa-cloud-rain");
             break;
-        
+        case "10":
+            if (lastChar === "d") {
+                i.classList.add("fas", "fa-cloud-sun-rain");
+            } else {
+                i.classList.add("fas", "fa-cloud-moon-rain");
+            }
+            break;
+        case "11":
+            i.classList.add("fas", "fa-poo-storm");
+            break;
+        case "13":
+            i.classList.add("far", "fa-snowflake");
+            break;
+        case "50":
+            i.classList.add("fas", "fa-smog");
+            break;
+            default:
+                i.classList.add("far", "fa-question-circle");
     }
-}
+    return i;
+};
