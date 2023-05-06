@@ -126,9 +126,9 @@ const getWeatherClass = (icon) => {
 
 const setBGImage = (weatherClass) => {
     document.documentElement.classList.add(weatherClass);
-  /*   document.documentElement.classList.forEach((img) => {
+    document.documentElement.classList.forEach((img) => {
         if (img !== weatherClass) document.documentElement.classList.remove(img);
-    }); */
+    });
 };
 
 const buildScreenReaderWeather = (weatherJson, locationObj) => {
