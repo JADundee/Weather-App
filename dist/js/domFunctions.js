@@ -103,13 +103,13 @@ const getWeatherClass = (icon) => {
     const firstTwoChars = icon.slice(0, 2);
     const lastChar = icon.slice(2);
     const weatherLookup = {
-        "01": "clear_sky",
-        "02": "partly_cloudy",
+        "01": "clouds",
+        "02": "clouds",
         "03": "clouds",
-        "04": "scattered_clouds",
+        "04": "clouds",
         "09": "rain",
         "10": "rain",
-        "11": "thunderstorm",
+        "11": "rain",
         "13": "snow",
         "50": "fog"
     };
@@ -126,9 +126,9 @@ const getWeatherClass = (icon) => {
 
 const setBGImage = (weatherClass) => {
     document.documentElement.classList.add(weatherClass);
-    document.documentElement.classList.forEach((img) => {
+  /*   document.documentElement.classList.forEach((img) => {
         if (img !== weatherClass) document.documentElement.classList.remove(img);
-    });
+    }); */
 };
 
 const buildScreenReaderWeather = (weatherJson, locationObj) => {
