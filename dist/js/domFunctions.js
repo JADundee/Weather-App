@@ -35,11 +35,11 @@ const toProperCase = (text) => {
 
 const updateWeatherLocationHeader = (message) => {
     const h1 = document.getElementById("currentForecast__location");
-    if (message.indexOf("lat:") !== -1 && message.indexOf("long:") !== -1) {
+    if (message.indexOf("Lat:") !== -1 && message.indexOf("Long:") !== -1) {
         const msgArray = message.split(" ");
-        const mapArray = msgArray.map(msg => {
+        const mapArray = msgArray.map((msg) => {
             return msg.replace(":", ": ");
-        })
+        });
         const lat =
          mapArray[0].indexOf("-") === -1 
          ? mapArray[0].slice(0, 10) 
@@ -87,8 +87,8 @@ const fadeDisplay = () => {
 const clearDisplay = () => {
     const currentConditions = document.getElementById("currentForecast__conditions");
     deleteContents(currentConditions);
-    const sixDay = document.getElementById("dailyForecast__contents");
-    deleteContents(sixDay);
+    const sixDayForecast = document.getElementById("dailyForecast__contents");
+    deleteContents(sixDayForecast);
 };
 
 const deleteContents = (parentElement) => {
@@ -146,7 +146,7 @@ const createCurrentConditionsDivs = (weatherObj, unit) => {
     const tempUnit = unit === "imperial" ? "F" : "C";
     const windUnit = unit === "imperial" ? "mph" : "kph";
     const icon = createMainImgDiv(weatherObj.current.weather[0].icon, weatherObj.current.weather[0].description);
-    const temp = createElem("div", "temp", `${Math.round(Number(weatherObj.current.temp))}°.`);
+    const temp = createElem("div", "temp", `${Math.round(Number(weatherObj.current.temp))}°.`, tempUnit);
     const properDesc = toProperCase(weatherObj.current.weather[0].description);
     const desc = createElem("div", "desc", properDesc);
     const feels = createElem("div", "feels", `Feels like ${Math.round(Number(weatherObj.current.feels_like))}°.`);
@@ -259,7 +259,7 @@ const createDailyForecastDivs = (dayWeather) => {
     const dayLow = createElem(
         "p",
         "dayLow",
-        `${Math.round(Number(dayWeather.temp.min))}°` );
+        `${Math.round(Number(dayWeather.temp.min))}°`);
     return [dayAbbreviation, dayIcon, dayHigh, dayLow];
 };
 
@@ -282,9 +282,9 @@ const createDailyForecastIcon = (icon, altText) => {
 
 const displayDailyForecast = (dfArray) => {
     const dayDiv = createElem("div", "forecastDay");
-    dfArray.forEach(el => {
+    dfArray.forEach((el) => {
         dayDiv.appendChild(el);
     });
     const dailyForecastContainer = document.getElementById("dailyForecast__contents");
     dailyForecastContainer.appendChild(dayDiv);
-}
+};
