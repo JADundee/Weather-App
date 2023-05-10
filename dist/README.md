@@ -1,2 +1,3 @@
 # unit conversion resets when refreshing or changing location unless changing from saved home location to geo location.
-# Background image only changes if its raining.
+# node-fetch 3 doestn support "require()" method
+# v2 of node fetch is required for the API to work.
