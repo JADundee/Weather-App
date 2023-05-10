@@ -12,7 +12,7 @@ import {
     displayApiError,
     updateScreenReaderConfirmation,
     updateDisplay
- } from "./domFunctions.js" 
+ } from "./domFunctions.js";
 import CurrentLocation from "./CurrentLocation.js";
 const currentLoc = new CurrentLocation();
 
@@ -44,21 +44,19 @@ const initApp = () => {
     loadWeather();
 };
 
-document.addEventListener("DOMContentLoaded", initApp)
+document.addEventListener("DOMContentLoaded", initApp);
 
 const getGeoWeather = (event) => {
-    if (event) {
-        if (event.type === "click") {
+    if (event && event.type === "click") { 
             const mapIcon = document.querySelector(".fa-map-marker-alt");
             addSpinner(mapIcon);
-        }
     }
     if (!navigator.geolocation) return geoError();
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError)
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
 };
 
 const geoError = (errObj) => {
-    const errMsg = errObj ? errObj : "Geolocation not supported";
+    const errMsg = errObj ? errObj.message : "Geolocation not supported";
     displayError(errMsg, errMsg);
 };
 
@@ -66,7 +64,7 @@ const geoSuccess = (position) => {
     const myCoordsObj = {
         lat: position.coords.latitude,
         lon: position.coords.longitude,
-        name: `lat:${position.coords.latitude} long:${position.coords.longitude}`
+        name: `Lat:${position.coords.latitude} Long:${position.coords.longitude}`
     };
     setLocationObject(currentLoc, myCoordsObj);
     updateDataAndDisplay(currentLoc);
@@ -78,7 +76,7 @@ const loadWeather = (event) => {
     if (!savedLocation && event.type === "click") {
         displayError(
             "No Home Location Saved.",
-            "Sorry. Please save you home location first."
+            "Sorry. Please save your home location first."
         );
     } else if (savedLocation && !event) {
         displayHomeLocationWeather(savedLocation);
@@ -114,7 +112,7 @@ const saveLocation = () => {
             unit: currentLoc.getUnit()
         };
         localStorage.setItem("defaultWeatherLocation", JSON.stringify(location));
-        updateScreenReaderConfirmation(`Saved ${currentLoc.getName()} as home location`);
+        updateScreenReaderConfirmation(`Saved ${currentLoc.getName()} as home location.`);
     }
 };
 
